@@ -66,12 +66,18 @@ public class Kalah {
 
         while (!kalahBd.isFinished()) {
             int action;
+            int move;
             if (kalahBd.getCurPlayer() == 'A') {
-                //action = MiniMax.bestMove(kalahBd); // 👈 MiniMax decides
-                action = AlphaBeta.bestMove(kalahBd);
+                //action = MiniMax.bestMove(kalahBd); //  MiniMax decides
+                //action = AlphaBeta.bestMove(kalahBd);
+                action = AlphaBetaOrdered.bestMove(kalahBd);
+                move = AlphaBetaOrdered.bestMove(kalahBd);
+
                 System.out.println("AI (A) plays: " + action);
                 //System.out.println("MiniMax node count: " + MiniMax.nodeCount);
-                System.out.println("AlphaBeta nodeCount: " + AlphaBeta.nodeCount);
+                //System.out.println("AlphaBeta nodeCount: " + AlphaBeta.nodeCount);
+                System.out.println("AlphaBetaOrdered chooses: " + move + " (Nodes: " + AlphaBetaOrdered.nodeCount + ")");
+
             } else {
                 action = kalahBd.readAction(); // Human plays B
             }
