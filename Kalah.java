@@ -1,6 +1,8 @@
 package kalah;
 
 
+import java.util.Random;
+
 import static kalah.MiniMax.bestMove;
 
 /**
@@ -21,9 +23,10 @@ public class Kalah {
 
         //testExample();
         //testHHGame();
-        testMiniMaxAndAlphaBetaWithGivenBoard();
+        //testMiniMaxAndAlphaBetaWithGivenBoard();
         //testHumanMiniMax();
         //testHumanMiniMaxAndAlphaBeta();
+        compareNodeCounts();
     }
 
     /**
@@ -88,4 +91,57 @@ public class Kalah {
 
         System.out.println("\n" + ANSI_BLUE + "GAME OVER");
     }
+    public static void compareNodeCounts() {
+        int testCases = 10;
+
+        int totalMiniMax = 0;
+        int totalAlphaBeta = 0;
+        int totalAlphaBetaOrdered = 0;
+
+        for (int i = 1; i <= testCases; i++) {
+            KalahBoard board = generateRandomBoard('A');
+
+            System.out.println("Test Case #" + i);
+            board.print();
+
+            // MiniMax
+            MiniMax.bestMove(board);
+            System.out.println("MiniMax nodes: " + MiniMax.nodeCount);
+            totalMiniMax += MiniMax.nodeCount;
+
+            // AlphaBeta
+            AlphaBeta.bestMove(board);
+            System.out.println("AlphaBeta nodes: " + AlphaBeta.nodeCount);
+            totalAlphaBeta += AlphaBeta.nodeCount;
+
+            // AlphaBetaOrdered
+            AlphaBetaOrdered.bestMove(board);
+            System.out.println("AlphaBetaOrdered nodes: " + AlphaBetaOrdered.nodeCount);
+            totalAlphaBetaOrdered += AlphaBetaOrdered.nodeCount;
+
+            System.out.println("---------------------------------------------------\n");
+        }
+
+        // Averages
+        System.out.println("=== Average Node Expansions over " + testCases + " test cases ===");
+        System.out.println("MiniMax:           " + (totalMiniMax / testCases));
+        System.out.println("AlphaBeta:         " + (totalAlphaBeta / testCases));
+        System.out.println("AlphaBetaOrdered:  " + (totalAlphaBetaOrdered / testCases));
+    }
+    private static KalahBoard generateRandomBoard(char startingPlayer) {
+        Random rand = new Random();
+        int[] board = new int[14];
+
+        // Fill pits with a small random number of stones (e.g. 0 to 6)
+        for (int i = 0; i < 14; i++) {
+            if (i == 6 || i == 13) {
+                board[i] = 0; // Start Kalahs empty
+            } else {
+                board[i] = rand.nextInt(4); // Keep it reasonable for performance
+            }
+        }
+
+        return new KalahBoard(board, startingPlayer);
+    }
+
 }
