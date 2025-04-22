@@ -21,7 +21,7 @@ public class AlphaBetaOrdered {
 
         List<KalahBoard> successors = board.possibleActions();
 
-        // 🔽 Apply move ordering
+        //  Apply move ordering
         successors.sort(getComparator(board.getCurPlayer()));
 
         for (KalahBoard child : successors) {
@@ -52,7 +52,7 @@ public class AlphaBetaOrdered {
 
         List<KalahBoard> successors = board.possibleActions();
 
-        // 🔽 Apply move ordering again at each level
+        // Apply move ordering again at each level
         successors.sort(getComparator(board.getCurPlayer()));
 
         if (board.getCurPlayer() == 'A') {
